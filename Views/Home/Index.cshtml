@@ -1,0 +1,15 @@
+﻿@model HomeViewModel
+
+<partial name="_Carousel" />
+
+<h2>Pies of the week</h2>
+<h4>Our weekly selection - just for you!</h4>
+
+<div class="row">
+
+    @foreach (var ad in Model.PopularAds)
+    {
+        <partial name="_AdCard" model="ad" />
+    }
+
+</div>

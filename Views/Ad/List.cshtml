@@ -1,0 +1,9 @@
+﻿@model AdsListViewModel
+
+
+<h1>@Model.CurrentCategory</h1>
+@foreach (var ad in Model.Ads)
+{
+    <partial name="_AdCard" model="ad"/>
+}
+         
