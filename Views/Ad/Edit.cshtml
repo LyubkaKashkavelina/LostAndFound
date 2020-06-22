@@ -1,0 +1,107 @@
+﻿@inject SignInManager<IdentityUser> signInManager;
+@model Ad
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Ad</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AddId" />
+            <div class="form-group">
+                <label asp-for="PetName" class="control-label"></label>
+                <input asp-for="PetName" class="form-control" />
+                <span asp-validation-for="PetName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdDescription" class="control-label"></label>
+                <input asp-for="AdDescription" class="form-control" />
+                <span asp-validation-for="AdDescription" class="text-danger"></span>
+            </div>
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="IsPopular" /> @Html.DisplayNameFor(model => model.IsPopular)
+                        </label>
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="PetCategoryId" class="control-label"></label>
+                <select asp-for="PetCategoryId" class="form-control" asp-items="ViewBag.PetCategoryId"></select>
+                <span asp-validation-for="PetCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PetTypeId" class="control-label"></label>
+                <select asp-for="PetTypeId" class="form-control" asp-items="ViewBag.PetTypeId"></select>
+                <span asp-validation-for="PetTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenderType" class="col-md-2 control-label"></label>
+                <div class="col-md-5">
+                    <select data-toggle="dropdown" class="form-control" asp-for="GenderType" asp-items="Html.GetEnumSelectList<Gender>()">
+                        <option selected="selected">Please select</option>
+                    </select>
+                    <span asp-validation-for="GenderType" class="text-danger"></span>
+                </div>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="GenderType" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <select data-toggle="dropdown" class="form-control" asp-for="GenderType" asp-items="Html.GetEnumSelectList<Gender>()">
+                    <option selected="selected">Please select</option>
+                </select>
+                <span asp-validation-for="GenderType" class="text-danger"></span>
+            </div>
+        </div>*@
+            @*<div class="form-group">
+            <label asp-for="PhotoPath" class="control-label"></label>
+            <input asp-for="PhotoPath" class="form-control" />
+            <span asp-validation-for="PhotoPath" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="PhotoPath" class="col-md-2 control-label"></label>
+                <div class="col-md-5">
+                    <div class="custom-file">
+                        <input asp-for="PhotoPath" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Choose file...</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="PublisherEmail" class="control-label"></label>
+                <input asp-for="PublisherEmail" class="form-control" />
+                <span asp-validation-for="PublisherEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PublisherPhone" class="control-label"></label>
+                <input asp-for="PublisherPhone" class="form-control" />
+                <span asp-validation-for="PublisherPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,90 @@
+﻿@model LostAndFound.Models.Ad
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ad</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PetName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PetName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPopular)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsPopular)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PetCategory)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PetCategory.PetCategoryId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PetType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PetType.PetTypeId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GenderType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GenderType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoPath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhotoPath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfPublish)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfPublish)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PublisherEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PublisherEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PublisherPhone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PublisherPhone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AddId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

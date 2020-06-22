@@ -2,6 +2,17 @@
 
 <partial name="_Carousel" />
 
+<div class="row">
+    <form enctype="multipart/form-data" method="get">
+        <div class="input-group">
+            <input class="form-control" asp-for="@Model.SearchTerm"/>
+            <div class="input-group-append">
+                <button asp-controller="Ad" asp-action="SearchedAds" asp-route-SearchTerm="pisi" type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <h2>Pies of the week</h2>
 <h4>Our weekly selection - just for you!</h4>
 

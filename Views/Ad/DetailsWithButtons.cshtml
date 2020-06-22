@@ -1,0 +1,31 @@
+﻿@model Ad
+
+@{
+    var photoPath = "~/Images/" + (Model.PhotoPath ?? "noimage.png");
+ }
+
+<h2>@Model.PetName</h2>
+
+<div class="thumbnail">
+    <img alt="@Model.PetName" src="@photoPath" asp-append-version="true">
+    <div class="caption-full">
+        @*<h3 class="pull-right">@Model.Price</h3>*@
+        <h3>
+            <a href="#">@Model.PetName</a>
+        </h3>
+        <h4>@Model.AdDescription</h4>
+        <p>@Model.GenderType</p>
+        <div class="addToCart">
+            <p class="button">
+                <a class="btn btn-primary" asp-controller="Ad" asp-action="Delete"
+                   asp-route-id="@Model.AddId">Delete</a>
+            </p>
+        </div>
+        <div class="addToCart">
+            <p class="button">
+                <a class="btn btn-primary" asp-controller="Ad" asp-action="Edit"
+                   asp-route-id="@Model.AddId">Edit</a>
+            </p>
+        </div>
+    </div>
+</div>

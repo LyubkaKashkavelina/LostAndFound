@@ -1,0 +1,101 @@
+﻿@model IEnumerable<LostAndFound.Models.Ad>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPopular)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PetCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PetType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GenderType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfPublish)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublisherPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PetName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPopular)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PetCategory.PetCategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PetType.PetTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GenderType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhotoPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfPublish)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublisherPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AddId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AddId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AddId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,7 @@
+﻿@model AdsListViewModel
+
+
+@foreach (var ad in Model.Ads)
+{
+    <partial name="_AdCardWithButtons" model="ad" />
+}

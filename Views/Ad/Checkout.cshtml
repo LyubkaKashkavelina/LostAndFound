@@ -1,18 +1,38 @@
 ﻿@model AdCreateViewModel
-@*@foreach (var ad in Model.Ads)
-    {
-        <partial name="_AdCreate" model="ad" />
-    }*@
+
+@{
+    List<PetType> listOfPetTypes = new List<PetType>();
+}
 
 <form enctype="multipart/form-data" asp-action="Checkout" method="post" class="form-horizontal" role="form">
-    <h4>You are just one step away from your delicious pies.</h4>
+    <h4>You are just one step away from finding your pet.</h4>
 
     <div asp-validation-summary="All" class="text-danger"></div>
+
     <div class="form-group">
-        <label asp-for="PetName" class="col-md-2 control-label"></label>
+        <label asp-for="PetCategoryId" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="PetName" class="form-control" />
-            <span asp-validation-for="PetName" class="text-danger"></span>
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="PetCategoryId" value="1" class="form-check form-check-inline" />Lost<br />
+                <input type="radio" asp-for="PetCategoryId" value="2" class="form-check form-check-inline" />Found<br />
+            </div>
+            <span asp-validation-for="PetCategoryId" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="PetTypeId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select data-toggle="dropdown" class="form-control" asp-for="PetTypeId">
+                <option selected="selected">Please select</option>
+                <option value="1">Cats</option>
+                <option value="2">Dogs</option>
+                <option value="3">Birds</option>
+                <option value="4">Large animals</option>
+                <option value="5">Others</option>
+            </select>
+            <span asp-validation-for="PetTypeId" class="text-danger"></span>
         </div>
     </div>
 
@@ -25,34 +45,72 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="AdDescription" class="col-md-2 control-label"></label>
+        <label asp-for="PetName" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="AdDescription" class="form-control" />
-            <span asp-validation-for="AdDescription" class="text-danger"></span>
+            <input asp-for="PetName" class="form-control" />
+            <span asp-validation-for="PetName" class="text-danger"></span>
         </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="IsPopular" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="IsPopular" class="form-control" />
-            <span asp-validation-for="IsPopular" class="text-danger"></span>
-        </div>
-    </div>
+    @*<div class="form-group">
+            <label asp-for="IsPopular" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <input asp-for="IsPopular" class="form-control" />
+                <span asp-validation-for="IsPopular" class="text-danger"></span>
+            </div>
+        </div>*@
 
-    <div class="form-group">
-        <label asp-for="PetCategoryId" class="col-md-2 control-label"></label>
-        <div class="col-md-5">
-            <input asp-for="PetCategoryId" class="form-control" />
-            <span asp-validation-for="PetCategoryId" class="text-danger"></span>
-        </div>
-    </div>
+    @*<div class="form-group">
+            <label asp-for="PetCategoryId" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <input asp-for="PetCategoryId" class="form-control" />
+                <span asp-validation-for="PetCategoryId" class="text-danger"></span>
+            </div>
+        </div>*@
 
-    <div class="form-group">
+
+
+
+    @*<div class="form-group">
+        <label asp-for="PetType.PetTypeId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select asp-for="PetType.PetTypeId" class="form-control"
+                    asp-items="@(new SelectList(ViewBag.ListOfPetTypes, "PetTypeId", "TypeName"))">
+            </select>*@
+    @*<input asp-for="PetTypeId" class="form-control" asp-items=""/>
+        <span asp-validation-for="PetTypeId" class="text-danger"></span>*@
+    @*</div>
+        </div>*@
+
+
+    @*<div class="form-group">
         <label asp-for="PetTypeId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">*@
+    @*<ul class="dropdown-menu">
+            @foreach (var type in listOfPetTypes)
+            {
+                <li>
+                    <a asp-controller="Ad" asp-action="Checkout"
+                       asp-route-type="@type.TypeName">@type.TypeName</a>
+                </li>
+            }
+        </ul>*@
+    @*<select asp-for="PetTypeId" class="form-control" asp-items="@(new SelectList(listOfPetTypes,"PetTypeId","TypeName"))">*@
+    @*<option value="PetTypeId">@Model.PetTypeId</option>*@
+    @*</select>*@
+    @*<input asp-for="PetTypeId" class="form-control" />
+        @*asp-items="@(new SelectList(Model.PetTypes,"PetTypeId","TypeName"))"*@
+    @*<span asp-validation-for="PetTypeId" class="text-danger"></span>*@
+    @*</div>
+        </div>*@
+
+    <div class="form-group">
+        <label asp-for="GenderType" class="col-md-2 control-label"></label>
         <div class="col-md-5">
-            <input asp-for="PetTypeId" class="form-control" />
-            <span asp-validation-for="PetTypeId" class="text-danger"></span>
+            <select data-toggle="dropdown" class="form-control" asp-for="GenderType" asp-items="Html.GetEnumSelectList<Gender>()">
+                <option selected="selected">Please select</option>
+            </select>
+            <span asp-validation-for="GenderType" class="text-danger"></span>
         </div>
     </div>
 
@@ -66,25 +124,35 @@
         </div>
     </div>
 
-    @*<div class="form-group">
-            <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
-            <div class="col-md-5">
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
+    <div class="form-group">
+        <label asp-for="PublisherEmail" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PublisherEmail" class="form-control" />
+            <span asp-validation-for="PublisherEmail" class="text-danger"></span>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label asp-for="Email" class="col-md-2 control-label"></label>
-            <div class="col-md-5">
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>*@
+    <div class="form-group">
+        <label asp-for="PublisherPhone" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PublisherPhone" class="form-control" />
+            <span asp-validation-for="PublisherPhone" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AdDescription" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="AdDescription" class="form-control"/>
+            <span asp-validation-for="AdDescription" class="text-danger"></span>
+        </div>
+    </div>
+
+
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-5">
-            <input type="submit" class="btn btn-primary" value="Complete order" />
+            <input type="submit" class="btn btn-primary" value="Publish" />
         </div>
     </div>
 

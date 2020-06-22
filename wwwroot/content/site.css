@@ -1,12 +1,6 @@
-﻿/*!
- * Start Bootstrap - Shop Homepage (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
- */
-
-body {
+﻿body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    background-image: url('/images/pattern.png');
+    background-image: url('/images/paw-pattern2.jpg');
     background-repeat: repeat;
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -87,17 +81,35 @@ footer {
     min-height: 400px;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+/*.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
     background-color: #fcaeae !important;
     border-color: #fba1a1 !important;
-}
+}*/
 
-.btn {
+/*.btn {
     background-color: #fcaeae !important;
     border-color: #fba1a1 !important;
-}
+}*/
 
 .imageThumbnail {
     height: 200px !important;
     width: auto;
+}
+
+.blue-border textarea {
+    border: 1px solid blue;
+}
+
+.blue-border .form-control:focus {
+    border: 1px solid blue;
+    box-shadow: 0 0 0 0.2rem rgba(186, 104, 200, .25);
+}
+
+.outer {
+    width: 100%;
+    text-align: center;
+}
+
+.inner {
+    display: inline-block;
 }

@@ -1,4 +1,5 @@
 ﻿using LostAndFound.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,8 @@ namespace LostAndFound.ViewModels
     {
         public IEnumerable<Ad> Ads { get; set; }
         public string CurrentCategory { get; set; }
+        
+        //[BindProperty(SupportsGet = true)]
+        //public string SearchTerm { get; set; }
     }
 }

@@ -43,5 +43,24 @@ namespace LostAndFound.Models
 
             _appDbContext.SaveChanges();
         }
+
+        public void DeleteAd(Ad ad)
+        {
+            _appDbContext.Ads.Remove(ad);
+
+            _appDbContext.SaveChanges();
+        }
+
+        public IEnumerable<Ad> Search(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return _appDbContext.Ads;
+            }
+
+            return _appDbContext.Ads.Where(a => a.PetName.Contains(searchTerm) ||
+                                                a.Location.Contains(searchTerm) ||
+                                                a.PetCategory.CategoryName.Contains(searchTerm));
+        }
     }
 }

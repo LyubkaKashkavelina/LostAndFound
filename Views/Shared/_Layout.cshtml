@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<IdentityUser> signInManager;
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -24,11 +26,18 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                    @*<li><a asp-controller="Pie" asp-action="List">Pies</a></li>*@
                     @await Component.InvokeAsync("CategoryMenu")
                     @*@await Component.InvokeAsync("ShoppingCartSummary")*@
-                    <li><a asp-controller="Ad" asp-action="Checkout">Add new ad</a></li>
+                    <li><a asp-controller="Ad" asp-action="Checkout">New ad</a></li>
                     <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
+                    @if (signInManager.IsSignedIn(User) && !User.IsInRole("Admin"))
+                    {
+                        <li><a asp-controller="User" asp-action="ListMyAds" asp-route-userId="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">My ads</a></li>
+                    }
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <li><a asp-controller="Admin" asp-action="ListManageAds">Manage ads</a></li>
+                    }
                     <partial name="_LoginPartial" />
                 </ul>
             </div>

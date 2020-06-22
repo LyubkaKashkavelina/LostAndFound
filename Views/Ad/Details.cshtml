@@ -2,7 +2,7 @@
 
 @{
     var photoPath = "~/Images/" + (Model.PhotoPath ?? "noimage.png");
- }
+}
 
 <h2>@Model.PetName</h2>
 
@@ -14,12 +14,6 @@
             <a href="#">@Model.PetName</a>
         </h3>
         <h4>@Model.AdDescription</h4>
-        <p>@Model.AdDescription</p>
-        @*<div class="addToCart">
-            <p class="button">
-                <a class="btn btn-primary" asp-controller="ShoppingCart" asp-action="AddToShoppingCart"
-                   asp-route-adId="@Model.AddId">Add to cart</a>
-            </p>
-        </div>*@
+        <p>@Model.GenderType</p>
     </div>
 </div>
