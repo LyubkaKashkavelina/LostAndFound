@@ -2,23 +2,30 @@
 
 @{
     var photoPath = "~/Images/" + (Model.PhotoPath ?? "noimage.png");
+    var cardHeader = Model.PetName ?? Model.PetType.TypeName;
 }
+
+
 
 <div class="col-sm-4 col-lg-4 col-md-4">
     <div class="thumbnail">
-        <img src="@photoPath" asp-append-version="true" alt="" class="imageThumbnail">
+        <a asp-controller="Ad" asp-action="Details" asp-route-id="@Model.AddId">
+            <img src="@photoPath" asp-append-version="true" alt="" class="imageThumbnail">
+        </a>
         <div class="caption">
             <h3>
-                <a asp-controller="Ad" asp-action="Details" asp-route-id="@Model.AddId">@Model.PetName</a>
+                <a asp-controller="Ad" asp-action="Details" asp-route-id="@Model.AddId">@cardHeader</a>
             </h3>
-            <p>@Model.AdDescription</p>
+            <p>@Model.PetCategory.CategoryName</p>
+            <p>@Model.PetType.TypeName</p>
+            <p>@Model.Region.RegionName, @Model.Location</p>
         </div>
         <div class="addToCart">
             <p class="button">
                 <a class="btn btn-info"
                    asp-controller="Ad"
                    asp-action="Details"
-                   asp-route-id="@Model.AddId">View details</a>
+                   asp-route-id="@Model.AddId">Разгледай</a>
             </p>
         </div>
     </div>

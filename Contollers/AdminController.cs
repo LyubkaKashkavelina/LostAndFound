@@ -55,7 +55,7 @@ namespace LostAndFound.Contollers
         {
             IEnumerable<Ad> ads;
 
-                ads = _adRepository.AllAds.OrderBy(p => p.DateOfPublish);
+                ads = _adRepository.AllAds.OrderByDescending(p => p.DateOfPublish);
 
             return View(new AdsListViewModel
             {

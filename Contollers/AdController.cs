@@ -43,13 +43,13 @@ namespace LostAndFound.Contollers
 
             if (string.IsNullOrEmpty(category))
             {
-                ads = _adRepository.AllAds.OrderBy(p => p.AddId);
-                currentCategory = "All pets";
+                ads = _adRepository.ActiveAds.OrderByDescending(a => a.DateOfPublish);
+                currentCategory = "Всички";
             }
             else
             {
-                ads = _adRepository.AllAds.Where(p => p.PetCategory.CategoryName == category)
-                    .OrderBy(p => p.PetCategoryId);
+                ads = _adRepository.ActiveAds.Where(a => a.PetCategory.CategoryName == category)
+                    .OrderByDescending(a => a.DateOfPublish);
                 currentCategory = _petCategoryRepository.AllCategories.FirstOrDefault(c => c.CategoryName == category)?.CategoryName;
             }
 
@@ -81,38 +81,86 @@ namespace LostAndFound.Contollers
         }
 
         [HttpGet]
-        public ViewResult SearchedAds(string SearchTerm)
+        public ViewResult SearchedAds(string SearchTerm, int PetTypeId, int RegionId)
         {
             IEnumerable<Ad> ads;
-            ads = _adRepository.Search(SearchTerm);
+            string currentCategory;
 
-            if (string.IsNullOrEmpty(SearchTerm))
+            ads = _adRepository.ActiveAds;
+            currentCategory = "All ads";
+
+
+            if (string.IsNullOrEmpty(SearchTerm) && RegionId == 0 && PetTypeId == 0)
             {
-                ads = _adRepository.AllAds.OrderBy(p => p.AddId);
+                ads = _adRepository.ActiveAds.OrderByDescending(p => p.DateOfPublish);
             }
+
+            if (string.IsNullOrEmpty(SearchTerm) && RegionId == 0 && PetTypeId != 0)
+            {
+                ads = _adRepository.ActiveAds.Where(a => a.PetTypeId == PetTypeId).OrderByDescending(p => p.DateOfPublish);
+            }
+
+            if (string.IsNullOrEmpty(SearchTerm) && RegionId != 0 && PetTypeId == 0)
+            {
+                ads = _adRepository.ActiveAds.Where(a => a.RegionId == RegionId).OrderByDescending(p => p.DateOfPublish);
+            }
+
+            if (string.IsNullOrEmpty(SearchTerm) && RegionId != 0 && PetTypeId != 0)
+            {
+                ads = _adRepository.ActiveAds.Where(a => a.RegionId == RegionId)
+                                             .Where(a => a.PetTypeId == PetTypeId)
+                                             .OrderByDescending(p => p.DateOfPublish);
+            }
+
+            if (!(string.IsNullOrEmpty(SearchTerm)) && RegionId == 0 && PetTypeId == 0)
+            {
+                ads = _adRepository.Search(SearchTerm)
+                     .OrderByDescending(p => p.DateOfPublish);
+            }
+
+            if (!(string.IsNullOrEmpty(SearchTerm)) && RegionId == 0 && PetTypeId != 0)
+            {
+                ads = _adRepository.Search(SearchTerm)
+                                   .Where(a => a.PetTypeId == PetTypeId)
+                                   .OrderByDescending(p => p.DateOfPublish);
+            }
+
+            if (!(string.IsNullOrEmpty(SearchTerm)) && RegionId != 0 && PetTypeId == 0)
+            {
+                ads = _adRepository.Search(SearchTerm)
+                                   .Where(a => a.RegionId == RegionId)
+                                   .OrderByDescending(p => p.DateOfPublish);
+            }
+
+            if (!(string.IsNullOrEmpty(SearchTerm)) && RegionId != 0 && PetTypeId != 0)
+            {
+                ads = _adRepository.Search(SearchTerm)
+                                   .Where(a => a.RegionId == RegionId)
+                                   .Where(a => a.PetTypeId == PetTypeId)
+                                   .OrderByDescending(p => p.DateOfPublish);
+            }
+
+
             return View(new AdsListViewModel
             {
                 Ads = ads,
+                CurrentCategory = currentCategory
             });
         }
 
         [Authorize]
         public IActionResult Checkout()
         {
+            ViewData["PetCategoryId"] = new SelectList(_appDbContext.Set<PetCategory>(), "PetCategoryId", "CategoryName");
+            ViewData["PetTypeId"] = new SelectList(_appDbContext.Set<PetType>(), "PetTypeId", "TypeName");
+            ViewData["RegionId"] = new SelectList(_appDbContext.Set<Region>(), "RegionId", "RegionName");
             return View();
         }
 
         [Authorize]
         [HttpPost]
         public IActionResult Checkout(AdCreateViewModel model)
-        {
-            //List<PetType> petTypeList = new List<PetType>();
-            //petTypeList = (from p in _appDbContext.PetTypes
-            //               select p).ToList();
-
-            //petTypeList.Insert(0, new PetType { PetTypeId = 0, TypeName = "Select" });
-
-            //ViewBag.ListOfPetTypes = petTypeList;
+        {           
 
             if (ModelState.IsValid)
             {
@@ -139,19 +187,28 @@ namespace LostAndFound.Contollers
                     PhotoPath = uniqueFileName,
                     PublisherEmail = model.PublisherEmail,
                     PublisherPhone = model.PublisherPhone,
-                    UserId = currentUserId
+                    UserId = currentUserId,
+                    IsArchived = model.IsArchived,
+                    RegionId = model.RegionId
                 };
                 _adRepository.CreateAd(newAd);
                 return RedirectToAction("CheckoutComplete");
             }
-
+            
             return View();
         }
 
         [Authorize]
         public IActionResult CheckoutComplete()
         {
-            ViewBag.CheckoutCompleteMessage = "Thanks for your order. You'll soon enjoy your delicious pies!";
+            ViewBag.CheckoutCompleteMessage = "Благодарим Ви, че публикувахте вашата обява. Скоро ще върнете този чудесен любимец у дома!";
+
+            return View();
+        }
+
+        public IActionResult DeleteComplete()
+        {
+            ViewBag.DeleteCompleteMessage = "Обявата беше успешно изтрита!";
 
             return View();
         }
@@ -187,6 +244,7 @@ namespace LostAndFound.Contollers
             var ad = await _appDbContext.Ads
                 .Include(a => a.PetCategory)
                 .Include(a => a.PetType)
+                .Include(a => a.Region)
                 .FirstOrDefaultAsync(m => m.AddId == id);
             if (ad == null)
             {
@@ -204,7 +262,7 @@ namespace LostAndFound.Contollers
             var ad = await _appDbContext.Ads.FindAsync(id);
             _appDbContext.Ads.Remove(ad);
             await _appDbContext.SaveChangesAsync();
-            return RedirectToAction("CheckoutComplete");
+            return RedirectToAction("DeleteComplete");
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -219,15 +277,16 @@ namespace LostAndFound.Contollers
             {
                 return NotFound();
             }
-            ViewData["PetCategoryId"] = new SelectList(_appDbContext.Set<PetCategory>(), "PetCategoryId", "PetCategoryId", ad.PetCategoryId);
-            ViewData["PetTypeId"] = new SelectList(_appDbContext.Set<PetType>(), "PetTypeId", "PetTypeId", ad.PetTypeId);
+            ViewData["PetCategoryId"] = new SelectList(_appDbContext.Set<PetCategory>(), "PetCategoryId", "CategoryName", ad.PetCategoryId);
+            ViewData["PetTypeId"] = new SelectList(_appDbContext.Set<PetType>(), "PetTypeId", "TypeName", ad.PetTypeId);
+            ViewData["RegionId"] = new SelectList(_appDbContext.Set<Region>(), "RegionId", "RegionName", ad.RegionId);
             return View(ad);
         }
 
         // POST: Ads/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AddId,PetName,Location,AdDescription,IsPopular,PetCategoryId,PetTypeId,GenderType,PhotoPath,DateOfPublish,PublisherEmail,PublisherPhone,UserId")] Ad ad)
+        public async Task<IActionResult> Edit(int id, [Bind("AddId,PetName,RegionId,Location,AdDescription,IsPopular,PetCategoryId,PetTypeId,GenderType,PhotoPath,DateOfPublish,PublisherEmail,PublisherPhone,UserId,IsArchived")] Ad ad)
         {
             if (id != ad.AddId)
             {
@@ -256,6 +315,7 @@ namespace LostAndFound.Contollers
             }
             ViewData["PetCategoryId"] = new SelectList(_appDbContext.Set<PetCategory>(), "PetCategoryId", "PetCategoryId", ad.PetCategoryId);
             ViewData["PetTypeId"] = new SelectList(_appDbContext.Set<PetType>(), "PetTypeId", "PetTypeId", ad.PetTypeId);
+            ViewData["RegionId"] = new SelectList(_appDbContext.Set<Region>(), "RegionId", "RegionName", ad.RegionId);
             return View(ad);
         }
 

@@ -2,63 +2,171 @@
 @model Ad
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редактиране";
 }
 
-<h2>Edit</h2>
+<h2>Редактиране на обява</h2>
 
-<h4>Ad</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AddId" />
-            <div class="form-group">
-                <label asp-for="PetName" class="control-label"></label>
-                <input asp-for="PetName" class="form-control" />
-                <span asp-validation-for="PetName" class="text-danger"></span>
+@*<div class="row">*@
+@*<div class="col-md-4">*@
+<form asp-action="Edit" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="AddId" />
+
+    <div class="form-group">
+        <label asp-for="PetCategoryId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="PetCategoryId" value="1" class="form-check form-check-inline" />Изгубени<br />
+                <input type="radio" asp-for="PetCategoryId" value="2" class="form-check form-check-inline" />Намерени<br />
             </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
+            <span asp-validation-for="PetCategoryId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PetTypeId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select asp-for="PetTypeId" class="form-control" asp-items="ViewBag.PetTypeId">
+                <option>Please select pet type...</option>
+            </select>
+            <span asp-validation-for="PetTypeId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RegionId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select asp-for="RegionId" class="form-control" asp-items="ViewBag.RegionId">
+                <option>Please select region...</option>
+            </select>
+            <span asp-validation-for="RegionId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Location" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PetName" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PetName" class="form-control" />
+            <span asp-validation-for="PetName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GenderType" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <select data-toggle="dropdown" class="form-control" asp-for="GenderType" asp-items="Html.GetEnumSelectList<Gender>()">
+                <option selected="selected">Please select gender...</option>
+            </select>
+            <span asp-validation-for="GenderType" class="text-danger"></span>
+        </div>
+    </div>
+
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    {
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <div class="checkbox">
+                <label class="control-label">
+                    <input asp-for="IsPopular" /> @Html.DisplayNameFor(model => model.IsPopular)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="AdDescription" class="control-label"></label>
-                <input asp-for="AdDescription" class="form-control" />
-                <span asp-validation-for="AdDescription" class="text-danger"></span>
+        </div>
+    </div>
+    }
+
+    <div class="form-group"  style="display: none">
+        <label asp-for="PhotoPath" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <div class="custom-file">
+                <input asp-for="PhotoPath" class="form-control custom-file-input" />
+                <label class="custom-file-label">Choose file...</label>
             </div>
-            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-            {
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input asp-for="IsPopular" /> @Html.DisplayNameFor(model => model.IsPopular)
-                        </label>
-                    </div>
-                </div>
-            }
-            <div class="form-group">
-                <label asp-for="PetCategoryId" class="control-label"></label>
-                <select asp-for="PetCategoryId" class="form-control" asp-items="ViewBag.PetCategoryId"></select>
-                <span asp-validation-for="PetCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PetTypeId" class="control-label"></label>
-                <select asp-for="PetTypeId" class="form-control" asp-items="ViewBag.PetTypeId"></select>
-                <span asp-validation-for="PetTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GenderType" class="col-md-2 control-label"></label>
-                <div class="col-md-5">
-                    <select data-toggle="dropdown" class="form-control" asp-for="GenderType" asp-items="Html.GetEnumSelectList<Gender>()">
-                        <option selected="selected">Please select</option>
-                    </select>
-                    <span asp-validation-for="GenderType" class="text-danger"></span>
-                </div>
-            </div>
-            @*<div class="form-group">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PublisherEmail" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PublisherEmail" class="form-control" />
+            <span asp-validation-for="PublisherEmail" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PublisherPhone" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PublisherPhone" class="form-control" />
+            <span asp-validation-for="PublisherPhone" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AdDescription" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="AdDescription" class="form-control" />
+            <span asp-validation-for="AdDescription" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group" style="display: none">
+        <label asp-for="UserId" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="UserId" class="form-control" />
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group" style="display: none">
+        <label asp-for="DateOfPublish" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="DateOfPublish" class="form-control" />
+            <span asp-validation-for="DateOfPublish" class="text-danger"></span>
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            <label asp-for="PetCategoryId" class="control-label"></label>
+            <select asp-for="PetCategoryId" class="form-control" asp-items="ViewBag.PetCategoryId"></select>
+            <span asp-validation-for="PetCategoryId" class="text-danger"></span>
+        </div>*@
+
+    @*<div class="form-group">
+            <label asp-for="PetName" class="control-label"></label>
+            <input asp-for="PetName" class="form-control" />
+            <span asp-validation-for="PetName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RegionId" class="control-label"></label>
+            <select asp-for="RegionId" class="form-control" asp-items="ViewBag.RegionId"></select>
+            <span asp-validation-for="RegionId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Location" class="control-label"></label>
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdDescription" class="control-label"></label>
+            <input asp-for="AdDescription" class="form-control" />
+            <span asp-validation-for="AdDescription" class="text-danger"></span>
+        </div>*@
+
+    @*<div class="form-group">
+            <label asp-for="PetTypeId" class="control-label"></label>
+            <select asp-for="PetTypeId" class="form-control" asp-items="ViewBag.PetTypeId"></select>
+            <span asp-validation-for="PetTypeId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="GenderType" class="col-md-2 control-label"></label>
             <div class="col-md-5">
                 <select data-toggle="dropdown" class="form-control" asp-for="GenderType" asp-items="Html.GetEnumSelectList<Gender>()">
@@ -67,39 +175,77 @@
                 <span asp-validation-for="GenderType" class="text-danger"></span>
             </div>
         </div>*@
-            @*<div class="form-group">
+    @*<div class="form-group">
+            <label asp-for="GenderType" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <select data-toggle="dropdown" class="form-control" asp-for="GenderType" asp-items="Html.GetEnumSelectList<Gender>()">
+                    <option selected="selected">Please select</option>
+                </select>
+                <span asp-validation-for="GenderType" class="text-danger"></span>
+            </div>
+        </div>*@
+    @*<div class="form-group">
             <label asp-for="PhotoPath" class="control-label"></label>
             <input asp-for="PhotoPath" class="form-control" />
             <span asp-validation-for="PhotoPath" class="text-danger"></span>
         </div>*@
-            <div class="form-group">
-                <label asp-for="PhotoPath" class="col-md-2 control-label"></label>
-                <div class="col-md-5">
-                    <div class="custom-file">
-                        <input asp-for="PhotoPath" class="form-control custom-file-input" />
-                        <label class="custom-file-label">Choose file...</label>
-                    </div>
+    @*<div class="form-group">
+            <label asp-for="PhotoPath" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <div class="custom-file">
+                    <input asp-for="PhotoPath" class="form-control custom-file-input" />
+                    <label class="custom-file-label">Choose file...</label>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="PublisherEmail" class="control-label"></label>
-                <input asp-for="PublisherEmail" class="form-control" />
-                <span asp-validation-for="PublisherEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PublisherEmail" class="control-label"></label>
+            <input asp-for="PublisherEmail" class="form-control" />
+            <span asp-validation-for="PublisherEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PublisherPhone" class="control-label"></label>
+            <input asp-for="PublisherPhone" class="form-control" />
+            <span asp-validation-for="PublisherPhone" class="text-danger"></span>
+        </div>*@
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <div class="checkbox form-check form-check-inline">
+                <label class="col-md-2 control-label">
+                    <input asp-for="IsArchived" /> @Html.DisplayNameFor(model => model.IsArchived)
+                </label>
             </div>
-            <div class="form-group">
-                <label asp-for="PublisherPhone" class="control-label"></label>
-                <input asp-for="PublisherPhone" class="form-control" />
-                <span asp-validation-for="PublisherPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="submit" value="Запази" class="btn btn-default" style="width: 100%; margin-bottom: 20px;" />
+        </div>
+        <div class="col-md-offset-2 col-md-5">
+            @if (signInManager.IsSignedIn(User) && !User.IsInRole("Admin"))
+        {
+            <a asp-controller="User" asp-action="ListMyAds" asp-route-userId="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">Назад</a>
+        }
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <a asp-controller="Admin" asp-action="ListManageAds" asp-route-userId="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">Назад</a>
+        }
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <input type="submit" class="btn btn-primary" value="Publish" />
+            </div>
+        </div>*@
+</form>
+@*</div>*@
+@*</div>*@
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @*<div class="col-md-offset-2 col-md-5">
+            <a asp-action="Index">Back to List</a>
+        </div>*@
 </div>
 
 @section Scripts {

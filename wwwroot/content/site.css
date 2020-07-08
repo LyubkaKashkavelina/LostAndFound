@@ -1,6 +1,6 @@
 ﻿body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    background-image: url('/images/paw-pattern2.jpg');
+    background-image: url('/images/background2.png');
     background-repeat: repeat;
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -20,8 +20,10 @@
 }
 
 .caption {
-    height: 130px;
+    height: 165px;
     overflow: hidden;
+    word-break: break-all;
+    text-overflow: ellipsis;
 }
 
     .caption h4 {

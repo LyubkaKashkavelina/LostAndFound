@@ -2,30 +2,55 @@
 
 @{
     var photoPath = "~/Images/" + (Model.PhotoPath ?? "noimage.png");
+    var cardHeader = Model.PetName ?? Model.PetType.TypeName;
  }
 
-<h2>@Model.PetName</h2>
+<h2>@cardHeader</h2>
 
 <div class="thumbnail">
     <img alt="@Model.PetName" src="@photoPath" asp-append-version="true">
     <div class="caption-full">
-        @*<h3 class="pull-right">@Model.Price</h3>*@
         <h3>
-            <a href="#">@Model.PetName</a>
+            <a href="#">@cardHeader</a>
         </h3>
-        <h4>@Model.AdDescription</h4>
-        <p>@Model.GenderType</p>
+        <p>Категория: @Model.PetCategory.CategoryName</p>
+        <p>Тип: @Model.PetType.TypeName</p>
+        <p>Пол: @Model.GenderType</p>
+        <p>Област: @Model.Region.RegionName</p>
+        <p>Местоположение: @Model.Location</p>
+        <p>Имейл: @Model.PublisherEmail</p>
+        <p>Телефон: @Model.PublisherPhone</p>
+        <p>Описание: @Model.AdDescription</p>
+        <p>Дата на публикуване: @Model.DateOfPublish</p>
+        @*<div class="addToCart">
+            <p class="button">
+                <a class="btn btn-primary" asp-controller="Ad" asp-action="Edit"
+                   asp-route-id="@Model.AddId">Edit</a>
+            </p>
+        </div>
         <div class="addToCart">
             <p class="button">
                 <a class="btn btn-primary" asp-controller="Ad" asp-action="Delete"
                    asp-route-id="@Model.AddId">Delete</a>
             </p>
-        </div>
-        <div class="addToCart">
-            <p class="button">
-                <a class="btn btn-primary" asp-controller="Ad" asp-action="Edit"
-                   asp-route-id="@Model.AddId">Edit</a>
-            </p>
+        </div>*@
+        <div class="outer">
+            <div class="addToCart inner">
+                <p class="button">
+                    <a class="btn btn-primary"
+                       asp-controller="Ad"
+                       asp-action="Edit"
+                       asp-route-id="@Model.AddId">Редактирай</a>
+                </p>
+            </div>
+            <div class="addToCart inner">
+                <p class="button">
+                    <a class="btn btn-danger"
+                       asp-controller="Ad"
+                       asp-action="Delete"
+                       asp-route-id="@Model.AddId">Изтрий</a>
+                </p>
+            </div>
         </div>
     </div>
 </div>

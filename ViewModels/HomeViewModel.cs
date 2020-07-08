@@ -13,5 +13,7 @@ namespace LostAndFound.ViewModels
         
         [BindProperty (SupportsGet = true)]
         public string SearchTerm { get; set; }
+        public int PetTypeId { get; set; }
+        public int RegionId { get; set; }
     }
 }

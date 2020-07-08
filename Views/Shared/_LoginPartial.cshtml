@@ -7,11 +7,20 @@
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
+            @*<li>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    <span>Hello @UserManager.GetUserName(User)!</span>
+                </a>  
+                </li>*@
             <li>
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a>
+                    <span class="glyphicon glyphicon-cog"></span>
+                    <span>Здравей, @UserManager.GetUserName(User)!</span>
+                </a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                <button type="submit" class="btn navbar-btn">Изход</button>
             </li>
         </ul>
     </form>
@@ -19,7 +28,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-        <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Register">Регистриране</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Login">Вход</a></li>
     </ul>
 }

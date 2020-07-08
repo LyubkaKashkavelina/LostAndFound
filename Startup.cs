@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using LostAndFound.Data;
 
 namespace LostAndFound
 {
@@ -91,10 +90,6 @@ namespace LostAndFound
             services.AddSession();
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-            services.AddDbContext<LostAndFoundContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("LostAndFoundContext")));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,10 +115,6 @@ namespace LostAndFound
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                //endpoints.MapControllerRoute(
-                //   name: "default",
-                //   pattern: "{controller}/{action=SearchedAds?SearchTerm=}");
 
                 endpoints.MapRazorPages();
             });

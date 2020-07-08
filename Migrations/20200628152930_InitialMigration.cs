@@ -75,6 +75,20 @@ namespace LostAndFound.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Regions",
+                columns: table => new
+                {
+                    RegionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RegionName = table.Column<string>(nullable: true),
+                    RegionDescription = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Regions", x => x.RegionId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -120,8 +134,8 @@ namespace LostAndFound.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -165,8 +179,8 @@ namespace LostAndFound.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -186,13 +200,20 @@ namespace LostAndFound.Migrations
                 {
                     AddId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PetName = table.Column<string>(nullable: true),
+                    PetName = table.Column<string>(maxLength: 50, nullable: true),
+                    RegionId = table.Column<int>(nullable: false),
                     Location = table.Column<string>(nullable: true),
                     AdDescription = table.Column<string>(nullable: true),
                     IsPopular = table.Column<bool>(nullable: false),
                     PetCategoryId = table.Column<int>(nullable: false),
                     PetTypeId = table.Column<int>(nullable: false),
-                    DateOfPublish = table.Column<DateTime>(nullable: false)
+                    GenderType = table.Column<int>(nullable: false),
+                    PhotoPath = table.Column<string>(nullable: true),
+                    DateOfPublish = table.Column<DateTime>(nullable: false),
+                    PublisherEmail = table.Column<string>(maxLength: 50, nullable: false),
+                    PublisherPhone = table.Column<string>(maxLength: 25, nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    IsArchived = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -208,6 +229,12 @@ namespace LostAndFound.Migrations
                         column: x => x.PetTypeId,
                         principalTable: "PetTypes",
                         principalColumn: "PetTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ads_Regions_RegionId",
+                        column: x => x.RegionId,
+                        principalTable: "Regions",
+                        principalColumn: "RegionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -241,6 +268,11 @@ namespace LostAndFound.Migrations
                 name: "IX_Ads_PetTypeId",
                 table: "Ads",
                 column: "PetTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ads_RegionId",
+                table: "Ads",
+                column: "RegionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -307,6 +339,9 @@ namespace LostAndFound.Migrations
 
             migrationBuilder.DropTable(
                 name: "PetTypes");
+
+            migrationBuilder.DropTable(
+                name: "Regions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

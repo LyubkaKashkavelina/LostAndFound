@@ -1,7 +1,16 @@
 ﻿@model AdsListViewModel
 
+@{var adsCount = @Model.Ads.Count();}
+
+
+@if (adsCount == 1){
+    <h3>Беше намерена @adsCount обява, отговаряща на търсенето Ви.</h3>
+        }
+        else{
+<h3>Бяха намерени @adsCount обяви, отговарящи на търсенето Ви.</h3>
+        }
 
 @foreach (var ad in Model.Ads)
 {
-    <partial name="_AdCard" model="ad" />
+<partial name="_AdCard" model="ad" />
 }

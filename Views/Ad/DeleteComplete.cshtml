@@ -1,0 +1,13 @@
+﻿@inject SignInManager<IdentityUser> signInManager;
+<h1>@ViewBag.DeleteCompleteMessage</h1>
+
+<div>
+    @if (signInManager.IsSignedIn(User) && !User.IsInRole("Admin"))
+        {
+    <a asp-controller="User" asp-action="ListMyAds" asp-route-userId="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">Назад</a>
+        }
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+    <a asp-controller="Admin" asp-action="ListManageAds" asp-route-userId="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">Назад</a>
+        }
+</div>

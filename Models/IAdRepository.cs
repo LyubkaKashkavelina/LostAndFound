@@ -8,7 +8,8 @@ namespace LostAndFound.Models
     public interface IAdRepository
     {
         IEnumerable<Ad> AllAds { get; } 
-        IEnumerable<Ad> PopularPies { get; }
+        IEnumerable<Ad> PopularAds { get; }
+        IEnumerable<Ad> ActiveAds { get; }
         Ad GetAdById(int adId);
         void CreateAd(Ad ad);
         void DeleteAd(Ad ad);

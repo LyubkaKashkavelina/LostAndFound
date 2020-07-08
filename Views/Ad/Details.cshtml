@@ -2,18 +2,26 @@
 
 @{
     var photoPath = "~/Images/" + (Model.PhotoPath ?? "noimage.png");
+    var cardHeader = Model.PetName ?? Model.PetType.TypeName;
 }
 
-<h2>@Model.PetName</h2>
+    <h2>@cardHeader</h2>
 
 <div class="thumbnail">
     <img alt="@Model.PetName" src="@photoPath" asp-append-version="true">
     <div class="caption-full">
-        @*<h3 class="pull-right">@Model.Price</h3>*@
         <h3>
-            <a href="#">@Model.PetName</a>
+            <a href="#">@cardHeader</a>
         </h3>
-        <h4>@Model.AdDescription</h4>
-        <p>@Model.GenderType</p>
+        <p>Категория: @Model.PetCategory.CategoryName</p>
+        <p>Тип: @Model.PetType.TypeName</p>
+        <p>Пол: @Model.GenderType</p>
+        <p>Област: @Model.Region.RegionName</p>
+        <p>Местоположение: @Model.Location</p>
+        <p>Имейл: @Model.PublisherEmail</p>
+        <p>Телефон: @Model.PublisherPhone</p>
+        <p>Описание: @Model.AdDescription</p>
+        <p>Дата на публикуване: @Model.DateOfPublish</p>
+        <button class="btn"><email address=@Model.PublisherEmail content="Изпрати имейл"></email> </button>
     </div>
 </div>

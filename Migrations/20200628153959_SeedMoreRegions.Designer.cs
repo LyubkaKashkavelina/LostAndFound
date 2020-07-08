@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LostAndFound.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200618195738_AddPublisherEmailAndPhone")]
-    partial class AddPublisherEmailAndPhone
+    [Migration("20200628153959_SeedMoreRegions")]
+    partial class SeedMoreRegions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,9 @@ namespace LostAndFound.Migrations
                     b.Property<int>("GenderType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsPopular")
                         .HasColumnType("bit");
 
@@ -47,7 +50,8 @@ namespace LostAndFound.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PetName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<int>("PetTypeId")
                         .HasColumnType("int");
@@ -56,9 +60,18 @@ namespace LostAndFound.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PublisherEmail")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("PublisherPhone")
+                        .HasColumnType("nvarchar(25)")
+                        .HasMaxLength(25);
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AddId");
@@ -66,6 +79,8 @@ namespace LostAndFound.Migrations
                     b.HasIndex("PetCategoryId");
 
                     b.HasIndex("PetTypeId");
+
+                    b.HasIndex("RegionId");
 
                     b.ToTable("Ads");
                 });
@@ -142,6 +157,166 @@ namespace LostAndFound.Migrations
                         {
                             PetTypeId = 5,
                             TypeName = "Others"
+                        });
+                });
+
+            modelBuilder.Entity("LostAndFound.Models.Region", b =>
+                {
+                    b.Property<int>("RegionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("RegionDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RegionId");
+
+                    b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            RegionId = 1,
+                            RegionName = "Blagoevgrad"
+                        },
+                        new
+                        {
+                            RegionId = 2,
+                            RegionName = "Burgas"
+                        },
+                        new
+                        {
+                            RegionId = 3,
+                            RegionName = "Dobrich"
+                        },
+                        new
+                        {
+                            RegionId = 4,
+                            RegionName = "Gabrovo"
+                        },
+                        new
+                        {
+                            RegionId = 5,
+                            RegionName = "Haskovo"
+                        },
+                        new
+                        {
+                            RegionId = 6,
+                            RegionName = "Kardzhali"
+                        },
+                        new
+                        {
+                            RegionId = 7,
+                            RegionName = "Kyustendil"
+                        },
+                        new
+                        {
+                            RegionId = 8,
+                            RegionName = "Lovech"
+                        },
+                        new
+                        {
+                            RegionId = 9,
+                            RegionName = "Montana"
+                        },
+                        new
+                        {
+                            RegionId = 10,
+                            RegionName = "Pazardzhik"
+                        },
+                        new
+                        {
+                            RegionId = 11,
+                            RegionName = "Pernik"
+                        },
+                        new
+                        {
+                            RegionId = 12,
+                            RegionName = "Pleven"
+                        },
+                        new
+                        {
+                            RegionId = 13,
+                            RegionName = "Plovdiv"
+                        },
+                        new
+                        {
+                            RegionId = 14,
+                            RegionName = "Razgrad"
+                        },
+                        new
+                        {
+                            RegionId = 15,
+                            RegionName = "Ruse"
+                        },
+                        new
+                        {
+                            RegionId = 16,
+                            RegionName = "Shumen"
+                        },
+                        new
+                        {
+                            RegionId = 17,
+                            RegionName = "Silistra"
+                        },
+                        new
+                        {
+                            RegionId = 18,
+                            RegionName = "Sliven"
+                        },
+                        new
+                        {
+                            RegionId = 19,
+                            RegionName = "Smolyan"
+                        },
+                        new
+                        {
+                            RegionId = 20,
+                            RegionName = "Sofia City"
+                        },
+                        new
+                        {
+                            RegionId = 21,
+                            RegionName = "Sofia (province)"
+                        },
+                        new
+                        {
+                            RegionId = 22,
+                            RegionName = "Stara Zagora"
+                        },
+                        new
+                        {
+                            RegionId = 23,
+                            RegionName = "Targovishte"
+                        },
+                        new
+                        {
+                            RegionId = 24,
+                            RegionName = "Varna"
+                        },
+                        new
+                        {
+                            RegionId = 25,
+                            RegionName = "Veliko Tarnovo"
+                        },
+                        new
+                        {
+                            RegionId = 26,
+                            RegionName = "Vidin"
+                        },
+                        new
+                        {
+                            RegionId = 27,
+                            RegionName = "Vratsa"
+                        },
+                        new
+                        {
+                            RegionId = 28,
+                            RegionName = "Yambol"
                         });
                 });
 
@@ -288,12 +463,10 @@ namespace LostAndFound.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -330,12 +503,10 @@ namespace LostAndFound.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -356,6 +527,12 @@ namespace LostAndFound.Migrations
                     b.HasOne("LostAndFound.Models.PetType", "PetType")
                         .WithMany("Ads")
                         .HasForeignKey("PetTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LostAndFound.Models.Region", "Region")
+                        .WithMany("Ads")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

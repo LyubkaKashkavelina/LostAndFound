@@ -24,7 +24,7 @@ namespace LostAndFound.Contollers
             IEnumerable<Ad> ads;
 
                 ads = _adRepository.AllAds.Where(a => a.UserId == userId)
-                    .OrderBy(a => a.DateOfPublish);
+                    .OrderByDescending(a => a.DateOfPublish);
 
             return View(new AdsListViewModel
             {

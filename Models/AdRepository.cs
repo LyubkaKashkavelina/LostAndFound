@@ -19,21 +19,37 @@ namespace LostAndFound.Models
         {
             get
             {
-                return _appDbContext.Ads.Include(c => c.PetCategory);
+                return _appDbContext.Ads.Include(c => c.PetCategory)
+                    .Include(c => c.PetType)
+                    .Include(c => c.Region);
             }
         }
 
-        public IEnumerable<Ad> PopularPies
+        public IEnumerable<Ad> PopularAds
         {
             get
             {
-                return _appDbContext.Ads.Include(c => c.PetCategory).Where(p => p.IsPopular);
+                return _appDbContext.Ads.Include(c => c.PetCategory)
+                    .Include(c => c.PetType)
+                    .Include(c => c.Region)
+                    .Where(a => a.IsPopular).Where(a => a.IsArchived == false);
+            }
+        }
+
+        public IEnumerable<Ad> ActiveAds
+        {
+            get
+            {
+                return _appDbContext.Ads.Include(c => c.PetCategory)
+                    .Include(c => c.PetType)
+                    .Include(c => c.Region)
+                    .Where(c => c.IsArchived == false);
             }
         }
 
         public Ad GetAdById(int adId)
         {
-            return _appDbContext.Ads.FirstOrDefault(p => p.AddId == adId);
+            return _appDbContext.Ads.Include(c => c.PetCategory).Include(c => c.PetType).Include(c => c.Region).FirstOrDefault(p => p.AddId == adId);
         }
 
         public void CreateAd(Ad ad)
@@ -58,9 +74,15 @@ namespace LostAndFound.Models
                 return _appDbContext.Ads;
             }
 
-            return _appDbContext.Ads.Where(a => a.PetName.Contains(searchTerm) ||
+                
+            return _appDbContext.Ads.Include(c => c.PetCategory)
+                    .Include(c => c.PetType)
+                    .Include(c => c.Region).
+                Where(a => a.PetName.Contains(searchTerm) ||
                                                 a.Location.Contains(searchTerm) ||
-                                                a.PetCategory.CategoryName.Contains(searchTerm));
+                                                a.PetCategory.CategoryName.Contains(searchTerm)||
+                                                a.AdDescription.Contains(searchTerm))
+                                    .Where(a => a.IsArchived == false);
         }
     }
 }

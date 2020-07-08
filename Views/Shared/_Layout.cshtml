@@ -25,18 +25,21 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Home" asp-action="Index">Начало</a></li>
                     @await Component.InvokeAsync("CategoryMenu")
-                    @*@await Component.InvokeAsync("ShoppingCartSummary")*@
-                    <li><a asp-controller="Ad" asp-action="Checkout">New ad</a></li>
-                    <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
+                    <li><a asp-controller="Ad" asp-action="Checkout">Нова обява</a></li>
+                    <li><a asp-controller="Contact" asp-action="Index">Свържи се нас</a></li>
                     @if (signInManager.IsSignedIn(User) && !User.IsInRole("Admin"))
                     {
-                        <li><a asp-controller="User" asp-action="ListMyAds" asp-route-userId="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">My ads</a></li>
+                        <li><a asp-controller="User" asp-action="ListMyAds" asp-route-userId="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">Моите обяви</a></li>
                     }
                     @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
-                        <li><a asp-controller="Admin" asp-action="ListManageAds">Manage ads</a></li>
+                        <li><a asp-controller="Admin" asp-action="ListManageAds">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span>Управление на обяви</span>
+                            </a>
+                        </li>
                     }
                     <partial name="_LoginPartial" />
                 </ul>
@@ -47,7 +50,7 @@
         <div class="row">
             <div class="col-md-3">
                 <p class="lead">
-                    <img class="img-responsive" alt="Bethany's Pie Shop'" src="~/Images/bethanylogo.png" />
+                    <img class="img-responsive" alt="" src="~/Images/logo.png" />
                 </p>
             </div>
             <div class="col-md-9">

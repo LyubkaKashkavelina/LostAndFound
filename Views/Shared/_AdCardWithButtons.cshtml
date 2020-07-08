@@ -2,32 +2,37 @@
 
 @{
     var photoPath = "~/Images/" + (Model.PhotoPath ?? "noimage.png");
+    var cardHeader = Model.PetName ?? Model.PetType.TypeName;
 }
 
 <div class="col-sm-4 col-lg-4 col-md-4">
     <div class="thumbnail">
-        <img src="@photoPath" asp-append-version="true" alt="" class="imageThumbnail">
+        <a asp-controller="Ad" asp-action="DetailsWithButtons" asp-route-id="@Model.AddId">
+            <img src="@photoPath" asp-append-version="true" alt="" class="imageThumbnail">
+        </a>
         <div class="caption">
             <h3>
-                <a asp-controller="Ad" asp-action="DetailsWithButtons" asp-route-id="@Model.AddId">@Model.PetName</a>
+                <a asp-controller="Ad" asp-action="DetailsWithButtons" asp-route-id="@Model.AddId">@cardHeader</a>
             </h3>
-            <p>@Model.AdDescription</p>
+            <p>@Model.PetCategory.CategoryName</p>
+            <p>@Model.PetType.TypeName</p>
+            <p>@Model.Region.RegionName, @Model.Location</p>
+            @*<dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsArchived)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.IsArchived)
+                </dd>
+            </dl>*@
         </div>
         <div class="outer">
-            <div class="addToCart inner">
-                <p class="button">
-                    <a class="btn btn-info"
-                       asp-controller="Ad"
-                       asp-action="Details"
-                       asp-route-id="@Model.AddId">View</a>
-                </p>
-            </div>
             <div class="addToCart inner">
                 <p class="button">
                     <a class="btn btn-primary"
                        asp-controller="Ad"
                        asp-action="Edit"
-                       asp-route-id="@Model.AddId">Edit</a>
+                       asp-route-id="@Model.AddId">Редактирай</a>
                 </p>
             </div>
             <div class="addToCart inner">
@@ -35,7 +40,7 @@
                     <a class="btn btn-danger"
                        asp-controller="Ad"
                        asp-action="Delete"
-                       asp-route-id="@Model.AddId">Delete</a>
+                       asp-route-id="@Model.AddId">Изтрий</a>
                 </p>
             </div>
         </div>

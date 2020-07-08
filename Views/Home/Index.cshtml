@@ -4,23 +4,39 @@
 
 <div class="row">
     <form enctype="multipart/form-data" method="get">
-        <div class="input-group">
-            <input class="form-control" asp-for="@Model.SearchTerm"/>
-            <div class="input-group-append">
-                <button asp-controller="Ad" asp-action="SearchedAds" asp-route-SearchTerm="pisi" type="submit" class="btn btn-primary">Search</button>
-            </div>
+        <div class="form-group col-sm-4 col-lg-4 col-md-4">
+            <label class="control-label">Търси тук:</label>
+            <input class="form-control" asp-for="@Model.SearchTerm" />
+            @*<div class="input-group-append col-sm-4 col-lg-4 col-md-4">
+            <button asp-controller="Ad" asp-action="SearchedAds" type="submit" class="btn btn-primary">Search</button>
+        </div>*@
+        </div>
+        <div class="form-group col-sm-4 col-lg-4 col-md-4">
+            <label class="control-label">Област:</label>
+            <select asp-controller="Ad" asp-action="SearchedAds" asp-for="@Model.RegionId" class="form-control" asp-items="ViewBag.RegionId">
+                <option>Изберете област...</option>
+            </select>
+            <span asp-validation-for="@Model.RegionId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-4 col-lg-4 col-md-4">
+            <label class="control-label">Тип:</label>
+            <select asp-controller="Ad" asp-action="SearchedAds" asp-for="@Model.PetTypeId" class="form-control" asp-items="ViewBag.PetTypeId">
+                <option>Изберете тип...</option>
+            </select>
+            <span asp-validation-for="@Model.PetTypeId" class="text-danger"></span>
+        </div>
+        <div class="input-group-append col-sm-12 col-lg-12 col-md-12">
+            <button style="width: 100%;" asp-controller="Ad" asp-action="SearchedAds" type="submit" class="btn btn-primary">Търси</button>
         </div>
     </form>
 </div>
 
-<h2>Pies of the week</h2>
-<h4>Our weekly selection - just for you!</h4>
+<h2>Популярни обяви</h2>
+<h4>Помогнете да ги приберем отново вкъщи!</h4>
 
 <div class="row">
-
     @foreach (var ad in Model.PopularAds)
     {
         <partial name="_AdCard" model="ad" />
     }
-
 </div>
